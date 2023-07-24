@@ -1,0 +1,52 @@
+Какие нам нужны минимальные настройки чтобы запустить Eureka Server?
+
+ 
+
+Для начала склонируй/скачай шаблон по ссылке(https://github.com/IvanCherepica/template/tree/main/eureka-server).
+
+https://github.com/KataAcademy/srping-cloud-course/tree/master/eureka-server
+
+Склонируй заготовки в самом начале, они пригодятся в будущем Все необходимые зависимости и версии уже присутствуют в файле pom.xml. Далее нужно лишь- дописать код, опираясь на материалы лекции.
+
+Перейдем непосредственно к настройке приложения:
+
+В файле application.yml (application.properties) пропиши следующее.
+
+spring:
+ application:
+   name: eureka-server
+server:
+ port: 8761
+eureka:
+ client:
+   registerWithEureka: false
+   fetchRegistry: false
+ 
+Вышеприведенный файл application.yml — это базовые настройки.
+
+Первые строки понятны, в них мы указываем имя и порт для сервера.
+
+С остальными строками немного сложнее. Давай разберемся с ними.
+
+Так как мы не хотим, чтобы наш сервер Eureka зарегистрировался сам с собой, мы установили свойство.
+
+registerWithEureka: false
+Если мы не хотим чтобы клиент получал информацию реестра от Eureka Server, нам надо указать следующее:
+eureka:
+ client:
+   fetchRegistry: false
+Далее необходимо создать основной класс приложения и указать соответствующую аннотацию @EnableEurekaServer.
+
+ 
+@SpringBootApplication
+@EnableEurekaServer
+public class EurekaServerApplication {
+  public static void main(String[] args) {
+     SpringApplication.run(EurekaServerApplication.class, args);
+  }
+}
+ 
+
+Это и есть минимальные необходимые настройки для запуска Eureka Server.
+
+С этими настройками сервер запустится и будет ждать, пока другие сервисы зарегистрируются в нем.
